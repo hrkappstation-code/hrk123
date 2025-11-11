@@ -1,0 +1,21 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest   # Azure DevOps hosted agent
+
+stages:
+- stage: Deploy
+  jobs:
+  - job: DeployToVM
+    steps:
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'my-ssh-connection'   # name of your SSH connection
+        runOptions: 'commands'
+        commands: |
+          echo "Connected to VM!"
+          cd /home/azureuser
+          mkdir -p myapp
+          echo "Hello from Azure DevOps" > myapp/hello.txt
+          ls -l myapp
